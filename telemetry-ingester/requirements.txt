@@ -1,0 +1,6 @@
+# requirements.txt
+
+chirpstack-api==4.6.0
+influxdb-client[async]==1.49.0
+paho-mqtt==2.1.0
+toml==0.10.2

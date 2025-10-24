@@ -1,0 +1,39 @@
+# Log level: ERROR, WARNING, INFO, DEBUG
+log = "INFO"
+
+
+# MQTT broker for event-based device discovery
+[mosquitto]
+
+# The endpoint of ChirpStack's MQTT broker
+endpoint = "172.17.0.1:1883" # host ip on Docker's default network on linux
+
+# MQTT subscription topic(s)
+# https://www.chirpstack.io/docs/chirpstack/integrations/mqtt.html
+topics = "application/#"
+
+# On initial connection failure, amount of seconds before trying again
+reconnect_delay = 60
+
+
+# LoRaWAN network server to source frame logs
+[chirpstack]
+
+# This must point to ChirpStack's gRPC API interface.
+endpoint = "172.17.0.1:8080" # host ip on Docker's default network on linux
+
+
+# Time-series database for the metrics collection system
+[influxdb]
+
+# The endpoint of your InfluxDB instance
+endpoint = "influxdb2:8086"
+
+# InfluxDB authentication token
+token = "token"
+
+# InfluxDB organization
+org = "organization"
+
+# InfluxDB bucket where data is stored
+bucket = "chirpstack"

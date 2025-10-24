@@ -1,0 +1,16 @@
+FROM python:alpine3.22
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN apk add --no-cache tini && \
+    pip install --no-cache-dir -r requirements.txt
+
+COPY src/ src/
+COPY start.py .
+
+ENTRYPOINT ["/sbin/tini", "-g", "--", "python", "start.py"]

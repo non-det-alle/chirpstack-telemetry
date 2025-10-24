@@ -1,4 +1,17 @@
 services:
+  telemetry-ingester:
+    build: ./telemetry-ingester
+    command: -c /etc/telemetry-ingester
+    restart: unless-stopped
+    environment:
+      CHIRPSTACK_API_TOKEN_FILE: /run/secrets/chirpstack-api-token
+    secrets: 
+      - chirpstack-api-token
+    volumes:
+      - ./configuration/telemetry-ingester:/etc/telemetry-ingester
+    depends_on:
+      - influxdb2
+
   # https://docs.influxdata.com/influxdb/v2/install/use-docker-compose
   influxdb2:
     image: influxdb:2.7
@@ -31,6 +44,10 @@ services:
     volumes:
       - ./configuration/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
       - grafana-storage:/var/lib/grafana
+
+secrets:
+  chirpstack-api-token:
+    file: .env.chirpstack-api-token
 
 volumes:
   grafana-storage:
