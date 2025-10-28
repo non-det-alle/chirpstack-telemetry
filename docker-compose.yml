@@ -42,7 +42,10 @@ services:
       INFLUXDB_ORG: organization
       INFLUXDB_TOKEN: token
     volumes:
+      - ./configuration/grafana/grafana.ini:/etc/grafana/grafana.ini
       - ./configuration/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./configuration/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./configuration/grafana/dashboards:/etc/dashboards
       - grafana-storage:/var/lib/grafana
 
 secrets:

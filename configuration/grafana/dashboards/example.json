@@ -1,0 +1,1315 @@
+{
+    "annotations": {
+        "list": [
+            {
+                "builtIn": 1,
+                "datasource": {
+                    "type": "grafana",
+                    "uid": "-- Grafana --"
+                },
+                "enable": true,
+                "hide": true,
+                "iconColor": "rgba(0, 211, 255, 1)",
+                "name": "Annotations & Alerts",
+                "type": "dashboard"
+            }
+        ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 0,
+    "links": [],
+    "panels": [
+        {
+            "collapsed": false,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 0
+            },
+            "id": 4,
+            "panels": [],
+            "title": "Signal quality",
+            "type": "row"
+        },
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "P5697886F9CA74929"
+            },
+            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": 3600000,
+                        "lineInterpolation": "linear",
+                        "lineStyle": {
+                            "fill": "solid"
+                        },
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "showValues": false,
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": 0
+                            }
+                        ]
+                    },
+                    "unit": "dBm"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 11,
+                "w": 12,
+                "x": 0,
+                "y": 1
+            },
+            "id": 5,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "12.2.1",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "P5697886F9CA74929"
+                    },
+                    "query": "from(bucket: \"chirpstack\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"device_uplink_frame_log\" and r._field == \"rx_info.rssi\")\r\n  |> filter(fn: (r) => contains(set: [${devices:doublequote}], value: r.dev_eui))\r\n  |> keep(columns: [\"_time\", \"dev_eui\", \"_value\"])\r\n  |> group(columns: [\"_time\",\"dev_eui\"]) |> max() |> group(columns: [\"dev_eui\"])\r\n",
+                    "refId": "A"
+                }
+            ],
+            "title": "Received Signal Strength Indicator (RSSI)",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "P5697886F9CA74929"
+            },
+            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": 3600000,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 7,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "showValues": false,
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": 0
+                            }
+                        ]
+                    },
+                    "unit": "dB"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 11,
+                "w": 12,
+                "x": 12,
+                "y": 1
+            },
+            "id": 6,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "12.2.1",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "P5697886F9CA74929"
+                    },
+                    "query": "from(bucket: \"chirpstack\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"device_uplink_frame_log\" and r._field == \"rx_info.snr\")\r\n  |> filter(fn: (r) => contains(set: [${devices:doublequote}], value: r.dev_eui))\r\n  |> group(columns: [\"_time\",\"dev_eui\"]) |> max() |> group(columns: [\"dev_eui\"])\r\n  |> keep(columns: [\"_time\", \"dev_eui\", \"_value\"])\r\n",
+                    "refId": "A"
+                }
+            ],
+            "title": "Signal to Noise Ratio (SNR)",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "P5697886F9CA74929"
+            },
+            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": 3600000,
+                        "lineInterpolation": "linear",
+                        "lineStyle": {
+                            "fill": "solid"
+                        },
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "showValues": false,
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": 0
+                            }
+                        ]
+                    },
+                    "unit": "dBm"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 11,
+                "w": 12,
+                "x": 0,
+                "y": 12
+            },
+            "id": 13,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "12.2.1",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "P5697886F9CA74929"
+                    },
+                    "hide": false,
+                    "query": "from(bucket: \"chirpstack\")\r\n  |> range(start: ${timeRangeStartMinusWindow}, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"device_uplink_frame_log\" and r._field == \"rx_info.rssi\")\r\n  |> filter(fn: (r) => contains(set: [${devices:doublequote}], value: r.dev_eui))\r\n  |> group(columns: [\"_time\",\"dev_eui\"]) |> max() |> group(columns: [\"dev_eui\"])\r\n  |> aggregateWindow(every: ${every}, period: ${window}, fn: mean)\r\n",
+                    "refId": "Raw"
+                }
+            ],
+            "title": "RSSI (timed moving average)",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "P5697886F9CA74929"
+            },
+            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": 3600000,
+                        "lineInterpolation": "linear",
+                        "lineStyle": {
+                            "fill": "solid"
+                        },
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "showValues": false,
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": 0
+                            }
+                        ]
+                    },
+                    "unit": "dBm"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 11,
+                "w": 12,
+                "x": 12,
+                "y": 12
+            },
+            "id": 14,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "12.2.1",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "P5697886F9CA74929"
+                    },
+                    "hide": false,
+                    "query": "from(bucket: \"chirpstack\")\r\n  |> range(start: ${timeRangeStartMinusWindow}, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"device_uplink_frame_log\" and r._field == \"rx_info.snr\")\r\n  |> filter(fn: (r) => contains(set: [${devices:doublequote}], value: r.dev_eui))\r\n  |> group(columns: [\"_time\",\"dev_eui\"]) |> max() |> group(columns: [\"dev_eui\"])\r\n  |> aggregateWindow(every: ${every}, period: ${window}, fn: mean) ",
+                    "refId": "Raw"
+                }
+            ],
+            "title": "SNR (timed moving average)",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "P5697886F9CA74929"
+            },
+            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "Spreading Factor (SF)",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": 3600000,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 2,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "showValues": false,
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "decimals": 0,
+                    "mappings": [],
+                    "max": 12,
+                    "min": 7,
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": 0
+                            }
+                        ]
+                    },
+                    "unit": "none"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 16,
+                "x": 4,
+                "y": 23
+            },
+            "id": 12,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "right",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "12.2.1",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "P5697886F9CA74929"
+                    },
+                    "query": "from(bucket: \"chirpstack\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"device_uplink_frame_log\" and r._field == \"rx_info.rssi\")\r\n  |> filter(fn: (r) => contains(set: [${devices:doublequote}], value: r.dev_eui))\r\n  |> map(fn: (r) => ({r with _value: int(v: r[\"tx_info.modulation.lora.spreading_factor\"])}))\r\n  |> group(columns: [\"dev_eui\"])\r\n  |> keep(columns: [\"_time\", \"dev_eui\", \"_value\"])\r\n",
+                    "refId": "A"
+                }
+            ],
+            "title": "Spreading Factor (SF)",
+            "type": "timeseries"
+        },
+        {
+            "collapsed": false,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 31
+            },
+            "id": 2,
+            "panels": [],
+            "title": "Link reliability",
+            "type": "row"
+        },
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "P5697886F9CA74929"
+            },
+            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": true,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "smooth",
+                        "lineWidth": 2,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "showValues": false,
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "dashed"
+                        }
+                    },
+                    "mappings": [],
+                    "max": 1,
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": 0
+                            },
+                            {
+                                "color": "#EAB839",
+                                "value": 0.8
+                            }
+                        ]
+                    },
+                    "unit": "percentunit"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 11,
+                "w": 12,
+                "x": 0,
+                "y": 32
+            },
+            "id": 1,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": false
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "12.2.1",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "P5697886F9CA74929"
+                    },
+                    "query": "packets = from(bucket: \"chirpstack\")\r\n  |> range(start: ${timeRangeStartMinusWindow}, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"device_uplink_frame_log\" and r._field == \"rx_info.rssi\")\r\n  |> filter(fn: (r) => contains(set: [${devices:doublequote}], value: r.dev_eui))\r\n  |> group(columns: [\"dev_eui\", \"phy_payload.payload.fhdr.devaddr\"]) \r\n  |> unique(column: \"phy_payload.payload.fhdr.f_cnt\") \r\n  |> group()\r\n\r\nrecv = packets \r\n  |> aggregateWindow(every: ${every}, period: ${window}, fn: count)\r\n  |> group(columns: [\"_start\", \"_stop\", \"_time\"]) |> max() |> group()\r\n\r\nsent = packets\r\n  |> map(fn: (r) => ({r with _value: int(v: r[\"phy_payload.payload.fhdr.f_cnt\"])}))\r\n  |> group(columns: [\"dev_eui\"]) |> sort(columns: [\"_time\"]) \r\n  |> difference(nonNegative: true, keepFirst: true) |> fill(value: 1)\r\n  |> aggregateWindow(every: ${every}, period: ${window}, fn: sum)\r\n  |> group(columns: [\"_start\", \"_stop\", \"_time\", \"dev_eui\"]) |> max()\r\n  |> group(columns: [\"_start\", \"_stop\", \"_time\"]) |> sum() |> group()\r\n\r\njoin(tables: {sent: sent, recv: recv}, on: [\"_start\", \"_stop\", \"_time\"])\r\n  |> map(fn: (r) => ({ r with _value: float(v: r._value_recv) / float(v: r._value_sent)}))\r\n  |> drop(columns: [\"_value_recv\", \"_value_sent\"])\r\n  |> group(columns: [\"_start\", \"_stop\"])\r\n",
+                    "refId": "A"
+                }
+            ],
+            "title": "Global Packet Delivery Ratio (PDR)",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "P5697886F9CA74929"
+            },
+            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": true,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": 3600000,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 4,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "always",
+                        "showValues": false,
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "dashed"
+                        }
+                    },
+                    "mappings": [],
+                    "max": 1,
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": 0
+                            },
+                            {
+                                "color": "#EAB839",
+                                "value": 0.8
+                            }
+                        ]
+                    },
+                    "unit": "percentunit"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 11,
+                "w": 12,
+                "x": 12,
+                "y": 32
+            },
+            "id": 3,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "table",
+                    "placement": "right",
+                    "showLegend": true,
+                    "sortBy": "Name",
+                    "sortDesc": true
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "12.2.1",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "P5697886F9CA74929"
+                    },
+                    "query": "packets = from(bucket: \"chirpstack\")\r\n  |> range(start: ${timeRangeStartMinusWindow}, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"device_uplink_frame_log\" and r._field == \"rx_info.rssi\")\r\n  |> filter(fn: (r) => contains(set: [${devices:doublequote}], value: r.dev_eui))\r\n  |> group(columns: [\"dev_eui\", \"phy_payload.payload.fhdr.devaddr\"]) \r\n  |> unique(column: \"phy_payload.payload.fhdr.f_cnt\") \r\n  |> group(columns: [\"dev_eui\"])\r\n\r\nrecv = packets \r\n  |> aggregateWindow(every: ${every}, period: ${window}, fn: count)\r\n  |> group(columns: [\"_start\", \"_stop\", \"_time\", \"dev_eui\"]) |> max() |> group(columns: [\"dev_eui\"])\r\n\r\nsent = packets\r\n  |> map(fn: (r) => ({r with _value: int(v: r[\"phy_payload.payload.fhdr.f_cnt\"])}))\r\n  |> sort(columns: [\"_time\"]) |> difference(nonNegative: true, keepFirst: true) |> fill(value: 1)\r\n  |> aggregateWindow(every: ${every}, period: ${window}, fn: sum)\r\n  |> group(columns: [\"_start\", \"_stop\", \"_time\", \"dev_eui\"]) |> max()\r\n  |> group(columns: [\"dev_eui\"])\r\n\r\njoin(tables: {sent: sent, recv: recv}, on: [\"_start\", \"_stop\", \"_time\", \"dev_eui\"])\r\n  |> map(fn: (r) => ({ r with _value: float(v: r._value_recv) / float(v: r._value_sent)}))\r\n  |> drop(columns: [\"_value_recv\", \"_value_sent\"])\r\n  |> group(columns: [\"_start\", \"_stop\", \"dev_eui\"])",
+                    "refId": "A"
+                }
+            ],
+            "title": "Packet Delivery Ratio (PDR)",
+            "type": "timeseries"
+        },
+        {
+            "collapsed": false,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 43
+            },
+            "id": 7,
+            "panels": [],
+            "title": "Radio utilization",
+            "type": "row"
+        },
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "P5697886F9CA74929"
+            },
+            "description": "Results are deduplicated",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 2,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "showValues": false,
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": 0
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "none"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 10,
+                "w": 12,
+                "x": 0,
+                "y": 44
+            },
+            "id": 9,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "table",
+                    "placement": "right",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "12.2.1",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "P5697886F9CA74929"
+                    },
+                    "query": "import \"date\"\r\n\r\nfrom(bucket: \"chirpstack\")\r\n  |> range(start: date.sub(d: 1h, from: v.timeRangeStart), stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"device_uplink_frame_log\" and r._field == \"rx_info.rssi\")\r\n  |> filter(fn: (r) => contains(set: [${devices:doublequote}], value: r.dev_eui))\r\n  |> group(columns: [\"dev_eui\", \"phy_payload.payload.fhdr.devaddr\"])\r\n  |> unique(column: \"phy_payload.payload.fhdr.f_cnt\")\r\n  |> group(columns: [\"dev_eui\"])\r\n  |> aggregateWindow(every: 1h, fn: count)\r\n",
+                    "refId": "A"
+                }
+            ],
+            "title": "Hourly # of unique uplink packets",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "P5697886F9CA74929"
+            },
+            "description": "Results are deduplicated",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 25,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "smooth",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "showValues": false,
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "percent"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": 0
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 10,
+                "w": 12,
+                "x": 12,
+                "y": 44
+            },
+            "id": 8,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "table",
+                    "placement": "right",
+                    "showLegend": true,
+                    "sortBy": "Name",
+                    "sortDesc": true
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "12.2.1",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "P5697886F9CA74929"
+                    },
+                    "query": "from(bucket: \"chirpstack\")\r\n  |> range(start: ${timeRangeStartMinusWindow}, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"device_uplink_frame_log\" and r._field == \"rx_info.rssi\")\r\n  |> filter(fn: (r) => contains(set: [${devices:doublequote}], value: r.dev_eui))\r\n  |> group(columns: [\"dev_eui\", \"phy_payload.payload.fhdr.devaddr\"]) \r\n  |> unique(column: \"phy_payload.payload.fhdr.f_cnt\") \r\n  |> group(columns: [\"dev_eui\"])\r\n  |> aggregateWindow(every: ${every}, period: ${window}, fn: count)",
+                    "refId": "A"
+                }
+            ],
+            "title": "% RX by sender",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "P5697886F9CA74929"
+            },
+            "description": "Results are deduplicated",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 25,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "smooth",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "showValues": false,
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "percent"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": 0
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 10,
+                "w": 12,
+                "x": 0,
+                "y": 54
+            },
+            "id": 10,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "table",
+                    "placement": "right",
+                    "showLegend": true,
+                    "sortBy": "Name",
+                    "sortDesc": true
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "12.2.1",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "P5697886F9CA74929"
+                    },
+                    "query": "from(bucket: \"chirpstack\")\r\n  |> range(start: ${timeRangeStartMinusWindow}, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"device_uplink_frame_log\" and r._field == \"rx_info.rssi\")\r\n  |> filter(fn: (r) => contains(set: [${devices:doublequote}], value: r.dev_eui))\r\n  |> group(columns: [\"dev_eui\", \"phy_payload.payload.fhdr.devaddr\"])\r\n  |> unique(column: \"phy_payload.payload.fhdr.f_cnt\")\r\n  |> group(columns: [\"tx_info.modulation.lora.spreading_factor\"])\r\n  |> aggregateWindow(every: ${every}, period: ${window}, fn: count)\r\n",
+                    "refId": "A"
+                }
+            ],
+            "title": "% RX by Spreading Factor (SF)",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "P5697886F9CA74929"
+            },
+            "description": "Results are deduplicated",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 25,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "smooth",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "showValues": false,
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "percent"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": 0
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 10,
+                "w": 12,
+                "x": 12,
+                "y": 54
+            },
+            "id": 11,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "table",
+                    "placement": "right",
+                    "showLegend": true,
+                    "sortBy": "Name",
+                    "sortDesc": true
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "12.2.1",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "P5697886F9CA74929"
+                    },
+                    "query": "from(bucket: \"chirpstack\")\r\n  |> range(start: ${timeRangeStartMinusWindow}, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"device_uplink_frame_log\" and r._field == \"rx_info.rssi\")\r\n  |> filter(fn: (r) => contains(set: [${devices:doublequote}], value: r.dev_eui))\r\n  |> group(columns: [\"dev_eui\", \"phy_payload.payload.fhdr.devaddr\"])\r\n  |> unique(column: \"phy_payload.payload.fhdr.f_cnt\")\r\n  |> group(columns: [\"tx_info.frequency\"])\r\n  |> aggregateWindow(every: ${every}, period: ${window}, fn: count)\r\n",
+                    "refId": "A"
+                }
+            ],
+            "title": "% RX by carrier frequency [Hz]",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "P5697886F9CA74929"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "showValues": false,
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": 0
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 9,
+                "w": 12,
+                "x": 6,
+                "y": 64
+            },
+            "id": 15,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "table",
+                    "placement": "right",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "12.2.1",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "P5697886F9CA74929"
+                    },
+                    "query": "from(bucket: \"chirpstack\")\r\n  |> range(start: ${timeRangeStartMinusWindow}, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"device_uplink_frame_log\" and r._field == \"rx_info.rssi\")\r\n  |> filter(fn: (r) => contains(set: [${devices:doublequote}], value: r.dev_eui))\r\n  |> group(columns: [\"_time\", \"dev_eui\"]) |> count() |> group(columns: [\"dev_eui\"])\r\n  |> aggregateWindow(every: ${every}, period: ${window}, fn: mean)\r\n",
+                    "refId": "A"
+                }
+            ],
+            "title": "Avg # duplicated Rx",
+            "type": "timeseries"
+        }
+    ],
+    "preload": false,
+    "refresh": "",
+    "schemaVersion": 42,
+    "tags": [],
+    "templating": {
+        "list": [
+            {
+                "current": {
+                    "text": "1h",
+                    "value": "1h"
+                },
+                "description": "Must be a duration: 10m, 3h, 1w",
+                "includeAll": false,
+                "label": "Rolling window size:",
+                "name": "window",
+                "options": [],
+                "query": "",
+                "type": "custom"
+            },
+            {
+                "current": {
+                    "text": "10m",
+                    "value": "10m"
+                },
+                "description": "Must be a duration: 10m, 3h, 1w",
+                "includeAll": false,
+                "label": "Sample frequency:",
+                "name": "every",
+                "options": [],
+                "query": "",
+                "type": "custom"
+            },
+            {
+                "current": {
+                    "text": "All",
+                    "value": [
+                        "$__all"
+                    ]
+                },
+                "datasource": {
+                    "type": "influxdb",
+                    "uid": "P5697886F9CA74929"
+                },
+                "definition": "from(bucket: \"chirpstack\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> keep(columns: [\"dev_eui\"]) |> group() |> distinct(column: \"dev_eui\")",
+                "includeAll": true,
+                "label": "Show devices:",
+                "multi": true,
+                "name": "devices",
+                "options": [],
+                "query": {
+                    "maxDataPoints": 10000,
+                    "query": "from(bucket: \"chirpstack\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> keep(columns: [\"dev_eui\"]) |> group() |> distinct(column: \"dev_eui\")",
+                    "refId": "InfluxVariableQueryEditor-VariableQuery"
+                },
+                "refresh": 2,
+                "regex": "",
+                "type": "query"
+            },
+            {
+                "current": {
+                    "text": "2025-10-28T10:06:30.304000000Z",
+                    "value": "2025-10-28T10:06:30.304000000Z"
+                },
+                "datasource": {
+                    "type": "influxdb",
+                    "uid": "P5697886F9CA74929"
+                },
+                "definition": "import \"date\" import \"array\" array.from(rows: [{_value: string(v: date.sub(d: ${window}, from: v.timeRangeStart))}])",
+                "hide": 2,
+                "includeAll": false,
+                "name": "timeRangeStartMinusWindow",
+                "options": [],
+                "query": {
+                    "maxDataPoints": 1,
+                    "query": "import \"date\" import \"array\" array.from(rows: [{_value: string(v: date.sub(d: ${window}, from: v.timeRangeStart))}])",
+                    "refId": "InfluxVariableQueryEditor-VariableQuery"
+                },
+                "refresh": 2,
+                "regex": "",
+                "type": "query"
+            }
+        ]
+    },
+    "time": {
+        "from": "now-1h",
+        "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "LoRaWAN example",
+    "uid": "e46613fd-6a92-4ef8-872b-2dc2419162de",
+    "version": 49
+}
