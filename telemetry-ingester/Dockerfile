@@ -1,4 +1,11 @@
-FROM python:alpine3.22
+FROM python:3.14-alpine3.22 AS builder
+
+COPY lorawan-decoder/ lorawan-decoder/
+
+RUN apk add --no-cache build-base && \
+    pip wheel -v -w wheels/ lorawan-decoder/
+
+FROM python:3.14-alpine3.22
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
@@ -7,7 +14,9 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-RUN apk add --no-cache tini && \
+RUN --mount=type=bind,from=builder,source=/wheels,target=/wheels \
+    apk add --no-cache tini libgcc && \
+    pip install --no-cache-dir /wheels/*.whl && \
     pip install --no-cache-dir -r requirements.txt
 
 COPY src/ src/

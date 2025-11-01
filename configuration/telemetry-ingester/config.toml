@@ -2,25 +2,14 @@
 log = "INFO"
 
 
-# MQTT broker for event-based device discovery
-[mosquitto]
+# Redis database for sourcing frame data
+[redis]
 
-# The endpoint of ChirpStack's MQTT broker
-endpoint = "172.17.0.1:1883" # host ip on Docker's default network on linux
+# The endpoint of ChirpStack's Redis instance
+endpoint = "172.17.0.1:6379" # host ip on Docker's default network on linux
 
-# MQTT subscription topic(s)
-# https://www.chirpstack.io/docs/chirpstack/integrations/mqtt.html
-topics = "application/#"
-
-# On initial connection failure, amount of seconds before trying again
-reconnect_delay = 60
-
-
-# LoRaWAN network server to source frame logs
-[chirpstack]
-
-# This must point to ChirpStack's gRPC API interface.
-endpoint = "172.17.0.1:8080" # host ip on Docker's default network on linux
+# The Redis data stream to read from
+stream = "device:stream:frame"
 
 
 # Time-series database for the metrics collection system

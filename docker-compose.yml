@@ -3,10 +3,6 @@ services:
     build: ./telemetry-ingester
     command: -c /etc/telemetry-ingester
     restart: unless-stopped
-    environment:
-      CHIRPSTACK_API_TOKEN_FILE: /run/secrets/chirpstack-api-token
-    secrets: 
-      - chirpstack-api-token
     volumes:
       - ./configuration/telemetry-ingester:/etc/telemetry-ingester
     depends_on:
@@ -47,10 +43,6 @@ services:
       - ./configuration/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
       - ./configuration/grafana/dashboards:/etc/dashboards
       - grafana-storage:/var/lib/grafana
-
-secrets:
-  chirpstack-api-token:
-    file: .env.chirpstack-api-token
 
 volumes:
   grafana-storage:

@@ -1,0 +1,15 @@
+[package]
+name = "lorawan_decoder"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "lorawan_decoder"
+crate-type = ["cdylib"]
+
+[dependencies]
+lrwn = { git = "https://github.com/chirpstack/chirpstack.git", tag = "v4.6.0", features = [
+    "serde",
+] }
+pyo3 = { version = "0.26.0", features = ["anyhow"] }
+pythonize = "0.26.0"
